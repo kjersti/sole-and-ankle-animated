@@ -34,8 +34,10 @@ const ShoeCard = ({
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
-        <ImageWrapper>
-          <Image alt="" src={imageSrc} />
+        <ImageWrapper>          
+          <ImageInnerWrapper>
+            <Image alt="" src={imageSrc} />
+          </ImageInnerWrapper>
           {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
           {variant === 'new-release' && (
             <NewFlag>Just released!</NewFlag>
@@ -73,16 +75,58 @@ const Link = styled.a`
   color: inherit;
 `;
 
-const Wrapper = styled.article``;
+
+const Flag = styled.div`
+  position: absolute;
+  top: 12px;
+  right: -4px;
+  background: red;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
+  font-size: ${14 / 18}rem;
+  font-weight: ${WEIGHTS.bold};
+  color: var(--color-white);
+  border-radius: 2px;
+`;
+
+const SaleFlag = styled(Flag)`
+  background-color: var(--color-primary);
+`;
+const NewFlag = styled(Flag)`
+  background-color: var(--color-secondary);
+`;
+
+
+const Wrapper = styled.article`  
+`;
+
+const Image = styled.img`
+  width: 100%;
+  display: block;  
+  transition: transform 500ms ease-out;  
+  transform-origin: center 75%;
+  will-change: transform;
+  
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    ${Link}:hover &,
+    ${Link}:focus & {
+      transform: scale(1.1);
+      transition: transform 200ms;
+    }
+  }
+`;
+
+const ImageInnerWrapper = styled.div`
+  /* Crop zoomed in image on hover */
+  overflow: hidden;
+  border-radius: 16px 16px 4px 4px;
+`;
 
 const ImageWrapper = styled.div`
   position: relative;
 `;
 
-const Image = styled.img`
-  width: 100%;
-  border-radius: 16px 16px 4px 4px;
-`;
 
 const Row = styled.div`
   font-size: 1rem;
@@ -107,27 +151,6 @@ const ColorInfo = styled.p`
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: var(--color-primary);
-`;
-
-const Flag = styled.div`
-  position: absolute;
-  top: 12px;
-  right: -4px;
-  background: red;
-  height: 32px;
-  line-height: 32px;
-  padding: 0 10px;
-  font-size: ${14 / 18}rem;
-  font-weight: ${WEIGHTS.bold};
-  color: var(--color-white);
-  border-radius: 2px;
-`;
-
-const SaleFlag = styled(Flag)`
-  background-color: var(--color-primary);
-`;
-const NewFlag = styled(Flag)`
-  background-color: var(--color-secondary);
 `;
 
 export default ShoeCard;
